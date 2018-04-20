@@ -10,10 +10,17 @@ from time import sleep
 import datetime
 import binascii
 import sys
+import os.path
 
-VERSION = 1.0
+VERSION = 1.1
 IP = "0.0.0.0"
 PORT = 4786
+
+logdir = "log" + os.path.sep
+if not os.path.exists(logdir):
+    print("[ERROR] Please create log directory first. ex. $ mkdir log")
+    sys.exit(1)
+
 print("csi-honeypot ver.{0} start.".format(VERSION))
 
 servsoc = socket.socket()
@@ -31,7 +38,7 @@ try:
             try:
                 data = client.recv(4096)
                 if len(data) > 0:
-                    with open("./log/"+addr[0]+".log", "a") as f:
+                    with open(logdir+addr[0]+".log", "a") as f:
                         f.write("[{0}] {1}\r\n".format(datetime.datetime.today(), data))
                     print(data)
                     client.send(binascii.a2b_hex(response))
