@@ -7,5 +7,7 @@ $ cd csi-honeypot
 $ mkdir log  
 $ python3 ./csi-honeypot.py
 
+Don't forget! Open 4786/tcp port on your server.
+
 # Log file
 ./log/SourceIP.log
