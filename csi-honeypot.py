@@ -33,7 +33,7 @@ try:
         print("Listening. {0}/tcp".format(PORT))
         servsoc.listen(5)
         client, addr = servsoc.accept()
-        print("someone comming! {0}".format(addr))
+        print("someone coming! {0}".format(addr))
         while True:
             try:
                 data = client.recv(4096)
