@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Author: Twitter @morihi_soc
-# 20/Apr/2018
-#
+# create 20/Apr/2018
+# last modified 1/Nov/2018
 # Honeypot for Cisco Smart Install
 #
 
@@ -12,7 +12,7 @@ import binascii
 import sys
 import os.path
 
-VERSION = 1.1
+VERSION = 1.2
 IP = "0.0.0.0"
 PORT = 4786
 
@@ -33,6 +33,7 @@ try:
         print("Listening. {0}/tcp".format(PORT))
         servsoc.listen(5)
         client, addr = servsoc.accept()
+        client.settimeout(3)
         print("someone coming! {0}".format(addr))
         while True:
             try:
@@ -41,7 +42,10 @@ try:
                     with open(logdir+addr[0]+".log", "a") as f:
                         f.write("[{0}] {1}\r\n".format(datetime.datetime.today(), data))
                     print(data)
-                    client.send(binascii.a2b_hex(response))
+                client.send(binascii.a2b_hex(response))
+            except socket.timeout:
+                print("timeout")
+                break
             except:
                 break
             sleep(1)
@@ -50,3 +54,4 @@ try:
 except KeyboardInterrupt:
     print("csi-honeypot quit.")
     servsoc.close()
+
